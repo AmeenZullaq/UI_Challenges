@@ -9,9 +9,12 @@ class AnimationLoadingPaage extends StatefulWidget {
 
 class _AnimationLoadingPaageState extends State<AnimationLoadingPaage>
     with TickerProviderStateMixin {
-  late Animation<double> firstDotAnimation;
-  late Animation<double> secondDotAnimation;
-  late Animation<double> thirdDotAnimation;
+  late Animation<double> firstScaleDotAnimation;
+  late Animation<double> secondScaleDotAnimation;
+  late Animation<double> thirdScaleDotAnimation;
+  late Animation<double> firstFadeDotAnimation;
+  late Animation<double> secondFadeDotAnimation;
+  late Animation<double> thirdFadeDotAnimation;
   late AnimationController firstDotController;
   late AnimationController secondDotController;
   late AnimationController thirdDotController;
@@ -31,14 +34,20 @@ class _AnimationLoadingPaageState extends State<AnimationLoadingPaage>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    firstDotAnimation =
+    firstFadeDotAnimation =
+        Tween<double>(begin: 0.2, end: 1).animate(firstDotController);
+    secondFadeDotAnimation =
+        Tween<double>(begin: 0.2, end: 1).animate(secondDotController);
+    thirdFadeDotAnimation =
+        Tween<double>(begin: 0.2, end: 1).animate(thirdDotController);
+    firstScaleDotAnimation =
         Tween<double>(begin: 1, end: 2).animate(firstDotController);
-    secondDotAnimation =
+    secondScaleDotAnimation =
         Tween<double>(begin: 1, end: 2).animate(secondDotController);
-    thirdDotAnimation =
+    thirdScaleDotAnimation =
         Tween<double>(begin: 1, end: 2).animate(thirdDotController);
 
-    firstDotAnimation.addStatusListener(
+    firstScaleDotAnimation.addStatusListener(
       (status) {
         if (status == AnimationStatus.completed) {
           secondDotController.forward();
@@ -46,7 +55,7 @@ class _AnimationLoadingPaageState extends State<AnimationLoadingPaage>
       },
     );
 
-    secondDotAnimation.addStatusListener(
+    secondScaleDotAnimation.addStatusListener(
       (status) {
         if (status == AnimationStatus.completed) {
           thirdDotController.forward();
@@ -54,7 +63,7 @@ class _AnimationLoadingPaageState extends State<AnimationLoadingPaage>
       },
     );
 
-    thirdDotAnimation.addStatusListener(
+    thirdScaleDotAnimation.addStatusListener(
       (status) {
         if (status == AnimationStatus.completed) {
           firstDotController.reset();
@@ -88,26 +97,35 @@ class _AnimationLoadingPaageState extends State<AnimationLoadingPaage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ScaleTransition(
-                scale: firstDotAnimation,
-                child: CircleAvatar(
-                  radius: 5,
-                  backgroundColor: Colors.blue.shade100,
+                scale: firstScaleDotAnimation,
+                child: FadeTransition(
+                  opacity: firstFadeDotAnimation,
+                  child: CircleAvatar(
+                    radius: 5,
+                    backgroundColor: Colors.blue,
+                  ),
                 ),
               ),
               SizedBox(width: 10),
               ScaleTransition(
-                scale: secondDotAnimation,
-                child: CircleAvatar(
-                  radius: 5,
-                  backgroundColor: Colors.blue.shade100,
+                scale: secondScaleDotAnimation,
+                child: FadeTransition(
+                  opacity: secondFadeDotAnimation,
+                  child: CircleAvatar(
+                    radius: 5,
+                    backgroundColor: Colors.blue,
+                  ),
                 ),
               ),
               SizedBox(width: 10),
               ScaleTransition(
-                scale: thirdDotAnimation,
-                child: CircleAvatar(
-                  radius: 5,
-                  backgroundColor: Colors.blue.shade100,
+                scale: thirdScaleDotAnimation,
+                child: FadeTransition(
+                  opacity: thirdFadeDotAnimation,
+                  child: CircleAvatar(
+                    radius: 5,
+                    backgroundColor: Colors.blue,
+                  ),
                 ),
               ),
             ],
